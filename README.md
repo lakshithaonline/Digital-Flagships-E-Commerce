@@ -35,5 +35,5 @@ Welcome to the Digital Flagships E Commerce Webapp! This project is designed to 
 
 ## License
 
-This project is licensed under the [ISC License](LICENSE).
+This project is licensed under the [MIT License](LICENSE).
 
