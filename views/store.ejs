@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <%- include('publicnavbar/navbar') %>
+
+    <div class="container">
+        <div class="row my-4">
+            <div class="col-lg-12">
+                <a href="/store" class="btn btn-primary">Go to Store</a>
+
+                <% if (users && users.length > 0) { %>
+                    <ul>
+                        <% users.forEach(User => { %>
+                            <li>
+                                <h3><%= users.name %></h3>
+                                <p>Category: <%= users.Category %></p>
+                                <p>Price: <%= users.price %></p>
+                                <img src="<%= users.Image %>" alt="<%= users.name %>">
+                            </li>
+                        <% }); %>
+                    </ul>
+                <% } else { %>
+                    <p>No users available.</p>
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+
+    <% include('layout/footer') %>
+
+</body>
+</html>

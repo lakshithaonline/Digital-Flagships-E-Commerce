@@ -1,0 +1,143 @@
+<head>
+    <style>
+          body {
+            background-color: #f5f5f5;
+        }
+
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table thead {
+            color: #ffc107;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+        }
+
+        .table .img-thumbnail {
+            max-width: 50px;
+            height: auto;
+        }
+
+        .table th.text-center,
+        .table td.text-center {
+            vertical-align: middle;
+        }
+
+        .alert {
+            border-radius: 10px;
+        }
+
+        .text-sucsess {
+            color: green;
+        }
+
+        .text-danger {
+            color: red;
+        }
+
+        .text-secondary {
+            color: #6c757d;
+        }
+
+        .mt-5 {
+            margin-top: 5rem;
+        }
+
+    </style>
+</head>
+<body>
+    
+<%- include('layout/header') %>
+
+
+<div class="container">
+    <div class="row my-4">
+        <div class="col-lg-12">
+            <% if (message) { %>
+             <div class="alert alert-dismissible fade show alert-<%= message.type %>"
+                role="alert">
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+            <strong><%= message.message  %></strong>
+            </div>
+            <% } %>
+            <div class="table-responsive">
+                <% if (users != '') { %>
+                    <table class="table table-striped text-center my-3">
+                        <thead>
+                            <tr class="table-dark">
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Image</th>
+                                <th class="text-center">Product Name</th>
+                                <th class="text-center">Category</th>
+                                <th class="text-center">Price</th>
+                                <th class="text-center">Action</th>
+                            </tr>  
+                        </thead>
+                        <tbody>
+                             <% users.forEach((row, index) => { %>
+                              <tr class="align-middle">
+                                <td><%= index %></td>
+                                <td><img src="<%= row.Image %>" width="50" class="img-thumbnail" alt=""></td>
+                                <td><%= row.name %></td>
+                                <td><%= row.Category %></td>
+                                <td><%= row.price %></td>
+                                <td>
+                                    <a href="/edit/<%= row._id %>" class="btn btn-success btn-sm me-1" title="Edit"><i class="fas fa-edit"></i>
+                                    <a href="/delete/<%= row._id %>" class="btn btn-danger btn-sm" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-delete-url="/delete/<%= row._id %>">
+                                        <i class="fas fa-trash"></i>
+                                </td>
+                              </tr>
+                             <% }) %>
+                        </tbody> 
+                    </table>
+                <% } else {%>
+                    <h1 class="text-center text-secondary mt-5">No products found in the database!</h1>
+                    <% } %>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+<!-- product delete message -->
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this product?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a id="deleteLink" href="#" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const deleteButtons = document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#deleteConfirmationModal"]');
+            const deleteLink = document.getElementById("deleteLink");
+
+            deleteButtons.forEach((button) => {
+                button.addEventListener("click", function () {
+                    const deleteUrl = button.getAttribute("data-delete-url");
+                    deleteLink.setAttribute("href", deleteUrl);
+                });
+            });
+        });
+    </script>
+    </div>
+
+
+<%- include('layout/footer') %>
+
+</body>
