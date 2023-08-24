@@ -1,143 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><% title %></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-          body {
-            background-color: #f5f5f5;
+        /* Custom styles for the homepage */
+        .home {
+            padding: 50px 0;
         }
 
-        .table {
-            border-radius: 10px;
-            overflow: hidden;
+        .hero {
+            background: linear-gradient(45deg, #f39c12, #f5f5f5);
+            padding: 50px 0;
+            background-size: 200% 200%;
+            animation: gradientAnimation 5s ease infinite;
+            border-radius: 30px;
+            margin-left: 10%;
+            margin-right: 10%;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .table thead {
-            color: #ffc107;
+        .animate {
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s forwards;
         }
 
-        .table th,
-        .table td {
-            vertical-align: middle;
+        /* Animation keyframes */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .table .img-thumbnail {
-            max-width: 50px;
-            height: auto;
+        /* Additional styles for the new content */
+        .technology-section {
+            padding: 50px 0;
+            background-color: #f9f9f9;
         }
 
-        .table th.text-center,
-        .table td.text-center {
-            vertical-align: middle;
+        .technology-item {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
         }
 
-        .alert {
-            border-radius: 10px;
+        .technology-item img {
+            max-width: 100px;
+            margin-right: 20px;
         }
 
-        .text-sucsess {
-            color: green;
+        .technology-item h3 {
+            color: #333;
         }
 
-        .text-danger {
-            color: red;
-        }
-
-        .text-secondary {
-            color: #6c757d;
-        }
-
-        .mt-5 {
-            margin-top: 5rem;
+        #heading {
+            margin-top: -50px;
+            margin-bottom: 50px;
         }
 
     </style>
 </head>
 <body>
-    
-<%- include('layout/header') %>
 
+    <%- include('publicnavbar/navbar') %>
 
-<div class="container">
-    <div class="row my-4">
-        <div class="col-lg-12">
-            <% if (message) { %>
-             <div class="alert alert-dismissible fade show alert-<%= message.type %>"
-                role="alert">
-            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-            <strong><%= message.message  %></strong>
-            </div>
-            <% } %>
-            <div class="table-responsive">
-                <% if (users != '') { %>
-                    <table class="table table-striped text-center my-3">
-                        <thead>
-                            <tr class="table-dark">
-                                <th class="text-center">ID</th>
-                                <th class="text-center">Image</th>
-                                <th class="text-center">Product Name</th>
-                                <th class="text-center">Category</th>
-                                <th class="text-center">Price</th>
-                                <th class="text-center">Action</th>
-                            </tr>  
-                        </thead>
-                        <tbody>
-                             <% users.forEach((row, index) => { %>
-                              <tr class="align-middle">
-                                <td><%= index %></td>
-                                <td><img src="<%= row.Image %>" width="50" class="img-thumbnail" alt=""></td>
-                                <td><%= row.name %></td>
-                                <td><%= row.Category %></td>
-                                <td><%= row.price %></td>
-                                <td>
-                                    <a href="/edit/<%= row._id %>" class="btn btn-success btn-sm me-1" title="Edit"><i class="fas fa-edit"></i>
-                                    <a href="/delete/<%= row._id %>" class="btn btn-danger btn-sm" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-delete-url="/delete/<%= row._id %>">
-                                        <i class="fas fa-trash"></i>
-                                </td>
-                              </tr>
-                             <% }) %>
-                        </tbody> 
-                    </table>
-                <% } else {%>
-                    <h1 class="text-center text-secondary mt-5">No products found in the database!</h1>
-                    <% } %>
-
-            </div>
-        </div>
-    </div>
-</div>
-<div>
-<!-- product delete message -->
-    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this product?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a id="deleteLink" href="#" class="btn btn-danger">Delete</a>
+    <div class="home">
+        <div class="hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1 class="">Welcome to the Digital Flagship Store</h1>
+                        <p>Your One-Stop Destination for Digital Gadgets and Accessories</p>
+                        <a href="/home" class="btn btn-primary">Explore Now</a>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="https://raw.githubusercontent.com/lakshithaonline/E-Commerce-Model-website-Xiaomi/main/Images/slide2.png" class="d-block w-100 rounded" alt="Slide 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://raw.githubusercontent.com/lakshithaonline/E-Commerce-Model-website-Xiaomi/main/Images/slide3.png" class="d-block w-100 rounded" alt="Slide 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://raw.githubusercontent.com/lakshithaonline/E-Commerce-Model-website-Xiaomi/874907f0deba5fedae16a08d77824d09662e1f51/Images/slide4.png" class="d-block w-100 rounded" alt="Slide 3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="technology-section">
+        <div class="container">
+            <h2 class="text-center" id="heading">Explore the Latest in Technology</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="technology-item">
+                        <div class="row">
+                            <div class="col-4">
+                                <img src="https://cdn-icons-png.flaticon.com/512/2948/2948319.png" alt="Technology 1">
+                            </div>
+                            <div class="col-8">
+                                <h3>Smart Homes</h3>
+                                <p>Experience the future with our range of smart home devices that make everyday tasks easier.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="technology-item">
+                        <div class="row">
+                            <div class="col-4">
+                                <img src="https://www.citypng.com/public/uploads/preview/5g-network-icon-transparent-background-11639762235aiz5lpeajo.png" alt="Technology 2">
+                            </div>
+                            <div class="col-8">
+                                <h3>5G Connectivity</h3>
+                                <p>Stay connected with lightning-fast 5G technology. Browse, stream, and game like never before.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="technology-item">
+                        <div class="row">
+                            <div class="col-4">
+                                <img src="https://cdn-icons-png.flaticon.com/512/2103/2103686.png" alt="Technology 3">
+                            </div>
+                            <div class="col-8">
+                                <h3>AI and Automation</h3>
+                                <p>Discover the power of artificial intelligence and automation in our cutting-edge gadgets.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include('publicnavbar/publicfooter') %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const deleteButtons = document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#deleteConfirmationModal"]');
-            const deleteLink = document.getElementById("deleteLink");
+        // Initialize the carousel
+        var carousel = new bootstrap.Carousel(document.getElementById('carouselExample'), {
+            interval: 3000,
+            pause: 'false'
+        });
 
-            deleteButtons.forEach((button) => {
-                button.addEventListener("click", function () {
-                    const deleteUrl = button.getAttribute("data-delete-url");
-                    deleteLink.setAttribute("href", deleteUrl);
-                });
-            });
+        // Add a class to control the animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroSection = document.querySelector('.hero');
+            heroSection.classList.add('animate');
         });
     </script>
-    </div>
-
-
-<%- include('layout/footer') %>
-
 </body>
+</html>

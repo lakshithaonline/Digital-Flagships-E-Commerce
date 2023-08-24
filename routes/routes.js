@@ -34,7 +34,7 @@ router.post('/add', upload, async (req, res) => {
             type: 'success',
             message: 'Product Added Successfully!'
         };
-        res.redirect("/");
+        res.redirect("/home");
     } catch (err) {
         res.json({ message: err.message, type: 'danger' });
     }
@@ -42,10 +42,10 @@ router.post('/add', upload, async (req, res) => {
 
 
 //get products display
-router.get("/", async (req, res) => {
+router.get("/home", async (req, res) => {
     try {
         const users = await User.find().exec();
-        res.render('index', {
+        res.render('home', {
             title: 'Home Page',
             users: users
         });
@@ -67,7 +67,7 @@ router.get('/edit/:id', async (req, res) => {
         const user = await User.findById(id).exec();
 
         if (!user) {
-            res.redirect("/");
+            res.redirect("/home");
         } else {
             res.render("edit_products", {
                 title: "Edit User",
@@ -112,7 +112,7 @@ router.post('/update/:id', upload, async (req, res) => {
             type: 'success',
             message: 'User Updated successfully!',
         };
-        res.redirect("/");
+        res.redirect("/home");
     } catch (err) {
         res.json({ message: err.message, type: 'danger' });
     }
@@ -128,7 +128,7 @@ router.get('/delete/:id', async (req, res) => {
         const user = await User.findById(id);
 
         if (!user) {
-            res.redirect("/");
+            res.redirect("/home");
         } else {
             if (user.Image != '') {
                 try {
@@ -144,7 +144,7 @@ router.get('/delete/:id', async (req, res) => {
                 type: 'success',
                 message: 'User deleted successfully!'
             };
-            res.redirect("/");
+            res.redirect("/home");
         }
     } catch (err) {
         res.json({ message: err.message });
@@ -152,8 +152,8 @@ router.get('/delete/:id', async (req, res) => {
 });
 
 // Route to redirect to Home page
-router.get('/home', (req, res) => {
-    res.render('home', {
+router.get('/', (req, res) => {
+    res.render('index', {
         title: 'Home Page',
         users: users
     });
