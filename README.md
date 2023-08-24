@@ -1,3 +1,5 @@
+![Project Header](https://raw.githubusercontent.com/lakshithaonline/Digital-Flagships-E-Commerce/main/uploads/Screenshot%202023-08-24%20160154.png)
+
 # Digital Flagships | E Commerce Webapp
 
 Welcome to the Digital Flagships E Commerce Webapp! This project is designed to provide a responsive online store platform with admin capabilities for managing products.
