@@ -81,21 +81,29 @@
           <div class="row">
             <div class="col-md-6">
               <h2>Contact Form</h2>
-              <form class="contact-form">
+              <form class="contact-form" id="contact-us-form">
                 <label for="name">Name</label>
+
                 <input type="text" id="name" name="name">
                 <label for="email">Email</label>
+
                 <input type="email" id="email" name="email">
                 <label for="message">Message</label>
+
                 <textarea id="message" name="message" rows="4"></textarea>
                 <button type="submit" class="btn btn-primary">Submit</button>
+
               </form>
+              <p id="response-message"></p>
             </div>
           </div>
         </div>>
       </div>
 
       <%- include('publicnavbar/publicfooter') %>
+
+
+    
 
 </body>
 </html>

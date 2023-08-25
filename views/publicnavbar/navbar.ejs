@@ -5,15 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
-    
-    <!-- Include Bootstrap CSS -->
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Include your custom CSS for additional styling -->
-    <link href="path-to-your-custom.css" rel="stylesheet">
+
     
     <style>
-        /* Custom styles for the navigation bar */
         .navbar-bg {
             background-color: #232323;
         }
@@ -47,12 +43,29 @@
         .navbar-nav .nav-link:hover {
             color: #f39c12;
         }
+        
+        .cart-icon {
+            margin-left: 20px; 
+        }
+
+        .cart-icon a {
+            color: #fff;
+            text-decoration: none;
+            display: flex; 
+            align-items: center; 
+        }
+
+        .cart-icon, a :hover {
+            color: #f39c12;
+        }
+
+
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-bg shadow-sm mb-3">
         <div class="container">
-            <a href="/home" class="navbar-logo">Digital <span class="text-warning">Flagships</span></a>
+            <a href="/" class="navbar-logo">Digital <span class="text-warning">Flagships</span></a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-nav"
                 aria-controls="navbar-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,12 +88,19 @@
                     </li>
                 </ul>
                 
-                <!-- Cart button goes here -->
+                <!-- Cart button -->
+                <div class="cart-icon">
+                    <a href="/cart" class="nav-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count"> 0</span>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
-
-    <!-- Include Bootstrap JS at the end of the body -->
+ 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 </body>
 </html>

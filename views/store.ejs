@@ -1,38 +1,255 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <style>
+          body {
+            background-color: #f5f5f5;
+        }
+
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 300px; 
+            margin: 10 auto; 
+        
+        }
+
+        .product-img {
+            width: auto;
+            height: auto;
+            
+            max-height: 180px; 
+            object-fit:contain;
+            display: block; 
+            margin: 0 auto;
+        }
+
+        .product-details {
+            padding: 10px; 
+        }
+
+        .product-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            color: black;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .add-to-cart-btn {
+            display: block;
+            width: 100%;
+            background-color: #ff9800;
+            color: #fff;
+            text-align: center;
+            padding: 8px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #f57c00;
+        }
+
+        .custom-column {
+            margin-bottom: 0px; 
+            margin-left: 0px;
+        }
+        
+        .store-header {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f57c00;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .store-header h1 {
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .store-header p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+
+        .banner {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .slideshow-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            flex: 0 0 100%;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+                
+        .search-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #product-search {
+            padding: 8px;
+            width: 60%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 20px;
+            outline: none;
+        }
+
+        #search-button {
+            padding: 8px 15px;
+            background-color: #ff9800;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #search-button:hover {
+            background-color: #f57c00;
+        }
+
+
+
+    </style>
 </head>
 <body>
+    
     <%- include('publicnavbar/navbar') %>
 
+    
     <div class="container">
-        <div class="row my-4">
-            <div class="col-lg-12">
-                <a href="/store" class="btn btn-primary">Go to Store</a>
-
-                <% if (users && users.length > 0) { %>
-                    <ul>
-                        <% users.forEach(User => { %>
-                            <li>
-                                <h3><%= users.name %></h3>
-                                <p>Category: <%= users.Category %></p>
-                                <p>Price: <%= users.price %></p>
-                                <img src="<%= users.Image %>" alt="<%= users.name %>">
-                            </li>
-                        <% }); %>
-                    </ul>
-                <% } else { %>
-                    <p>No users available.</p>
-                <% } %>
-
+        <div class="banner">
+            <div class="slideshow-container">
+                <div class="slide"><img src="https://raw.githubusercontent.com/lakshithaonline/Digital-Flagships-E-Commerce/main/views/Images/20050343.jpg" alt="Banner Image"></div>
+                <div class="slide"><img src="https://raw.githubusercontent.com/lakshithaonline/Digital-Flagships-E-Commerce/main/views/Images/2005044.jpg" alt="Banner Image"></div>
+                <div class="slide"><img src="https://raw.githubusercontent.com/lakshithaonline/Digital-Flagships-E-Commerce/main/views/Images/2005066.jpg" alt="Banner Image"></div>
             </div>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="product-search" placeholder="Search for products...">
+            <button id="search-button">Search</button>
+        </div>
+        <div class="row my-4">
+            <% if (users != '') { %>
+                <% users.forEach((row, index) => { %>
+                    <div class="col-md-3 custom-column">
+                        <div class="product-card">
+                            <img src="<%= row.Image %>" alt="Product Image" class="product-img">
+                            <div class="product-details">
+                                <div class="product-title"><%= row.name %></div>
+                                <div class="product-price">Rs. <%= row.price %></div>
+                                <button class="add-to-cart-btn" data-product-id="<%= row.name %>">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <h1 class="text-center text-secondary mt-5">No products found in the database!</h1>
+            <% } %>
         </div>
     </div>
 
-    <% include('layout/footer') %>
+    
 
+
+
+    <%- include('publicnavbar/publicfooter') %>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const slides = $(".slide");
+            const slideshowContainer = $(".slideshow-container");
+            let currentSlide = 0;
+    
+            function showSlide(slideIndex) {
+                slideshowContainer.css("transform", `translateX(-${slideIndex * 100}%)`);
+            }
+    
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+    
+            setInterval(nextSlide, 3000);
+        });
+
+        $(document).ready(function() {
+        $("#search-button").click(function() {
+            const searchTerm = $("#product-search").val().toLowerCase();
+            $(".product-card").each(function() {
+                const productName = $(this).find(".product-title").text().toLowerCase();
+                if (productName.includes(searchTerm)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
+
+
+    //cart
+    $(document).ready(function() {
+    // retrieve cart from local storage
+    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cart = storedCart;
+
+    $(".add-to-cart-btn").click(function() {
+        const productId = $(this).data("product-id");
+        const productName = $(this).closest(".product-card").find(".product-title").text();
+        const productPrice = parseFloat($(this).closest(".product-card").find(".product-price").text().replace("Rs. ", ""));
+
+        const item = { id: productId, name: productName, price: productPrice };
+        cart.push(item);
+
+        updateCartIcon();
+        updateLocalStorage();
+    });
+
+    function updateCartIcon() {
+        const cartCount = $(".cart-count");
+        cartCount.text(cart.length);
+    }
+
+    function updateLocalStorage() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+});
+
+
+    </script>
+    
 </body>
-</html>

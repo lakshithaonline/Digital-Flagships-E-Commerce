@@ -4,6 +4,46 @@ const multer = require('multer');
 const User = require('../models/users');
 const fs = require('fs');
 const users = require('../models/users');
+const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
+
+
+var transport = nodemailer.createTransport({
+    host: 'sandbox.smtp.mailtrap.io',
+    port: 2525,
+    auth: {
+      user: '7651d02092da0f',
+      pass: '60a8f679e45ca0',
+    },
+  });
+
+  
+  const app = express();
+  
+  app.use(bodyParser.urlencoded({ extended: true }));
+  
+  app.post('/submit-form', (req, res) => {
+    const { name, email, message } = req.body;
+  
+    const mailOptions = {
+      from: email, // Sender's email address
+      to: 'sandbox.smtp.mailtrap.io', // Recipient's email address
+      subject: 'New Contact Form Submission',
+      text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+    };
+  
+    transport.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        res.send('Error sending email');
+      } else {
+        console.log('Email sent: ' + info.response);
+        res.send('Email sent successfully');
+      }
+    });
+  });
+
+
 
 //img upload
 var storage = multer.diskStorage({
@@ -159,15 +199,7 @@ router.get('/', (req, res) => {
     });
   });
 
-// Route to redirect to shop page
-router.get('/store', (req, res) => {
-    res.render('store', {
-        title: 'Store',
-        users: users
-    });
-  });
-
-//get products display in store
+//get products display
 router.get("/store", async (req, res) => {
     try {
         const users = await User.find().exec();
@@ -188,5 +220,6 @@ router.get('/about', (req, res) => {
     });
   });
 
+  
 
 module.exports = router;

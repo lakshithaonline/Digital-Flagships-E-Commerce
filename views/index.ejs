@@ -6,7 +6,6 @@
     <title><% title %></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        /* Custom styles for the homepage */
         .home {
             padding: 50px 0;
         }
@@ -28,15 +27,12 @@
             animation: fadeInUp 1s forwards;
         }
 
-        /* Animation keyframes */
         @keyframes fadeInUp {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-
-        /* Additional styles for the new content */
         .technology-section {
             padding: 50px 0;
             background-color: #f9f9f9;
@@ -62,6 +58,104 @@
             margin-bottom: 50px;
         }
 
+        .latest-news-section {
+            background-color: #fff;
+            padding: 50px 0;
+        }
+
+        .news-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .news-image {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .news-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .news-card p {
+            color: #666;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: #333;
+            color: #fff;
+            border-radius: 50%;
+            padding: 10px;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: auto;
+            padding: 0;
+        }
+
+        .carousel-control-prev {
+            margin-left: -30px;
+        }
+
+        .carousel-control-next {
+            margin-right: -30px;
+        }
+
+        
+
+        .latest-news-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .content-wrapper {
+            padding: 30px 0;
+            margin-top: -30px;
+            color: white;
+        }
+
+        .news-card {
+            text-align: left;
+        }
+
+        .news-image {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            color: white; 
+        }
+
+        h2 {
+            text-align: left;
+        }
+
+        .btn-primary {
+            background-color: #333;
+            border-color: #333; 
+        }
+
+
     </style>
 </head>
 <body>
@@ -75,7 +169,7 @@
                     <div class="col-md-6">
                         <h1 class="">Welcome to the Digital Flagship Store</h1>
                         <p>Your One-Stop Destination for Digital Gadgets and Accessories</p>
-                        <a href="/home" class="btn btn-primary">Explore Now</a>
+                        <a href="/" class="btn btn-primary" style="background-color: #333; border-color: #333; color:white; ">Explore Now</a>
                     </div>
                     <div class="col-md-6">
                         <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">
@@ -143,19 +237,56 @@
             </div>
         </div>
     </div>
+    <div class="latest-news-section">
+        <div class="container">
+            <div class="background-image">
+                <img src="https://www.visualcapitalist.com/wp-content/uploads/2023/01/shareable_tech-trends.png" alt="Background Image" class="background-image">
+            </div>
+            <div class="content-wrapper">
+            <h2 class="text-center" style="padding-bottom: 30px; margin-top: -30px;">Latest Technology News and Updates</h2>
+            <div id="latestNewsCarousel" class="carousel slide" data-bs-interval="false">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="news-card">
+                            <img src="https://www.visualcapitalist.com/wp-content/uploads/2023/01/shareable_tech-trends.png" alt="News Image 1" class="news-image" style="height: 300px; width: 500px;">
+                            <h3>Exciting Tech Innovation</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet libero euismod nisi tristique.</p>
+                            <a href="https://www.visualcapitalist.com/11-tech-trends-to-watch-2023/" class="btn btn-primary" target="_blank" style="background-color: #333; border-color: #333; color:white; ">Explore More</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="news-card">
+                            <img src="https://www.analyticsinsight.net/wp-content/uploads/2023/07/Top-10-Breakthroughs-in-Artificial-Intelligence.jpg" alt="News Image 2" class="news-image" style="height: 300px; width: 500px;">
+                            <h3>New Breakthroughs in AI</h3>
+                            <p>Pellentesque euismod magna in lectus bibendum, in tempor ipsum mollis. Ut a consectetur ante.</p>
+                            <a href="https://www.analyticsinsight.net/top-10-breakthroughs-in-artificial-intelligence/" class="btn btn-primary" target="_blank" style="background-color: #333; border-color: #333; color:white; " >Explore More</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#latestNewsCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#latestNewsCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <%- include('publicnavbar/publicfooter') %>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Initialize the carousel
         var carousel = new bootstrap.Carousel(document.getElementById('carouselExample'), {
             interval: 3000,
             pause: 'false'
         });
 
-        // Add a class to control the animation
         document.addEventListener('DOMContentLoaded', () => {
             const heroSection = document.querySelector('.hero');
             heroSection.classList.add('animate');
