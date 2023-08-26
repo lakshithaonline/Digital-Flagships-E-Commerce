@@ -26,9 +26,9 @@ Welcome to the Digital Flagships E Commerce Webapp! This project is designed to 
 1. Clone the repository: `git clone https://github.com/your-username/digital-flagships.git`
 2. Navigate to the project folder: `cd digital-flagships`
 3. Install dependencies: `npm install`
-4. Create a `.env` file and configure environment variables (if necessary).
+4. Create a `.env` file and configure environment variables. 
 5. Start the server: `npm start`
-6. Open your browser and go to: `http://localhost:3000`
+6. Open your browser and go to: `http://localhost:5000`
 
 ## Usage
 
