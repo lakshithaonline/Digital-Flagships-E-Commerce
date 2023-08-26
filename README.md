@@ -1,4 +1,4 @@
-![Project Header](https://raw.githubusercontent.com/lakshithaonline/Digital-Flagships-E-Commerce/main/uploads/Screenshot%202023-08-24%20160154.png)
+![Project Header](https://raw.githubusercontent.com/lakshithaonline/Digital-Flagships-E-Commerce/main/views/Images/Screenshot%202023-08-24%20160154.png)
 
 # Digital Flagships | E Commerce Webapp
 
