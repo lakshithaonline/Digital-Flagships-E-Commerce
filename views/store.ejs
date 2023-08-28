@@ -29,6 +29,7 @@
 
         .product-details {
             padding: 10px; 
+            justify-content: space-between;
         }
 
         .product-title {
@@ -41,6 +42,13 @@
             color: black;
             font-weight: bold;
             font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .product-qty {
+            color: black;
+            font-weight: initial;
+            font-size: 13px;
             margin-bottom: 10px;
         }
 
@@ -88,12 +96,16 @@
 
 
         .banner {
-            position: relative;
+
             width: 100%;
             height: 200px;
             overflow: hidden;
             border-radius: 10px;
             margin-top: 30px;
+        }
+
+        .banner {
+            z-index: 1; 
         }
 
         .slideshow-container {
@@ -142,12 +154,93 @@
         }
 
 
+        /* inbild temport cart */
+        .cart-container {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            transition: right 0.3s;
+        }
+
+        .cart-container.cart-show {
+            right: 0;
+        }
+
+        .toggle-cart-button {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        #cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        #cart-items li {
+            margin-bottom: 8px;
+        }
+
+        #cart-total {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #checkout-button,
+        #clear-cart-button {
+            display: block;
+            width: 100%;
+            background-color: #ff9800;
+            color: #fff;
+            text-align: center;
+            padding: 8px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+    #checkout-button:hover,
+    #clear-cart-button:hover {
+            background-color: #f57c00;
+        }
+
+    .cart-hidden {
+        display: none;
+    }
+
+    .cart-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 5;
+        display: none;
+    }
+
+    .cart-container.cart-show + .cart-overlay {
+        display: block;
+    }
+
+
+        
 
     </style>
 </head>
 <body>
     
     <%- include('publicnavbar/navbar') %>
+    
+
 
     
     <div class="container">
@@ -171,7 +264,8 @@
                             <div class="product-details">
                                 <div class="product-title"><%= row.name %></div>
                                 <div class="product-price">Rs. <%= row.price %></div>
-                                <button class="add-to-cart-btn" data-product-id="<%= row.name %>">Add to Cart</button>
+                                <div class="product-qty">Qty: <%= row.quantity %></div>
+                                <button class="add-to-cart-btn" data-product-name="<%= row.name %>" data-product-price="<%= row.price %>">Add to Cart</button>
                             </div>
                         </div>
                     </div>
@@ -181,15 +275,148 @@
             <% } %>
         </div>
     </div>
+    <div class="toggle-cart-button">
+        <button id="toggle-cart-button">Cart</button>
+    </div>
 
+    <div class="cart-overlay"></div>
     
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+        <ul id="cart-items"></ul>
+        <p id="cart-total">Total: Rs. 0</p>
+        <button id="checkout-button">Proceed to Checkout</button>
+        <button id="clear-cart-button">Clear Cart</button>
 
-
+    </div>
 
     <%- include('publicnavbar/publicfooter') %>
+
+
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            
+            const cart = []; 
+
+
+            const cartContainer = $(".cart-container");
+    const toggleCartButton = $("#toggle-cart-button");
+
+    toggleCartButton.click(function() {
+        cartContainer.toggleClass("cart-show");
+    });
+
+            $(".add-to-cart-btn").click(function() {
+            const productName = $(this).data("product-name");
+            const productPrice = parseFloat($(this).data("product-price"));
+
+            const existingProduct = cart.find(item => item.name === productName);
+
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ name: productName, price: productPrice, quantity: 1 }); // Add quantity 1
+            }
+            updateCartUI();
+        });
+
+        function updateCartUI() {
+            const cartItemsList = $("#cart-items");
+            const cartTotal = $("#cart-total");
+
+            cartItemsList.empty();
+            let total = 0;
+
+            cart.forEach(item => {
+                cartItemsList.append(`<li>${item.name} - $${item.price.toFixed(2)}</li>`);
+                total += item.price;
+            });
+
+            cartTotal.text(`Total: $${total.toFixed(2)}`);
+        }
+
+        // Proceed to Checkout
+        $("#checkout-button").click(function() {
+
+            const queryString = cart.map(item => `name=${encodeURIComponent(item.name)}&price=${encodeURIComponent(item.price)}`).join('&');
+            const checkoutUrl = `/checkout?${queryString}`;
+            window.location.href = checkoutUrl;
+        });
+
+        // Clear Cart button
+        $("#clear-cart-button").click(function() {
+            cart.length = 0;
+            updateCartUI(); 
+        });
+
+
+        //increase and decrease funtion
+        function updateCartUI() {
+        const cartItemsList = $("#cart-items");
+        const cartTotal = $("#cart-total");
+
+        cartItemsList.empty();
+        let total = 0;
+
+        cart.forEach(item => {
+            const li = `<li>${item.name} - Qty: ${item.quantity} - Rs. ${(item.price * item.quantity).toFixed(2)} <button class="increase-qty-btn" data-product-name="${item.name}">+</button> <button class="decrease-qty-btn" data-product-name="${item.name}">-</button> <button class="remove-item-btn" data-product-name="${item.name}">Remove</button></li>`;
+            cartItemsList.append(li);
+            total += item.price * item.quantity;
+        });
+
+        cartTotal.text(`Total: Rs. ${total.toFixed(2)}`);
+    }
+
+        // Increase product quantity in cart
+        $(document).on("click", ".increase-qty-btn", function() {
+        const productName = $(this).data("product-name");
+
+        // Find the product in the cart and increase its quantity
+        for (const item of cart) {
+            if (item.name === productName) {
+                item.quantity += 1;
+                updateCartUI();
+                break;
+            }
+        }
+    });
+
+        // Decrease product quantity in cart
+        $(document).on("click", ".decrease-qty-btn", function() {
+        const productName = $(this).data("product-name");
+
+        // Find the product in the cart and decrease its quantity
+        for (const item of cart) {
+            if (item.name === productName) {
+                if (item.quantity > 1) {
+                    item.quantity -= 1;
+                    updateCartUI();
+                }
+                break;
+            }
+        }
+    });
+
+        // Remove product from cart
+        $(document).on("click", ".remove-item-btn", function() {
+            const productName = $(this).data("product-name");
+
+            // Find the product in the cart and remove it
+            const index = cart.findIndex(item => item.name === productName);
+            if (index !== -1) {
+                cart.splice(index, 1);
+                updateCartUI();
+            }
+        });
+
+        
+
+
+
+
+            //slide in header:
             const slides = $(".slide");
             const slideshowContainer = $(".slideshow-container");
             let currentSlide = 0;
@@ -204,9 +431,10 @@
             }
     
             setInterval(nextSlide, 3000);
+
         });
 
-        $(document).ready(function() {
+        //search
         $("#search-button").click(function() {
             const searchTerm = $("#product-search").val().toLowerCase();
             $(".product-card").each(function() {
@@ -217,39 +445,8 @@
                     $(this).hide();
                 }
             });
-        });
+        
     });
 
-
-    //cart
-    $(document).ready(function() {
-    // retrieve cart from local storage
-    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
-    const cart = storedCart;
-
-    $(".add-to-cart-btn").click(function() {
-        const productId = $(this).data("product-id");
-        const productName = $(this).closest(".product-card").find(".product-title").text();
-        const productPrice = parseFloat($(this).closest(".product-card").find(".product-price").text().replace("Rs. ", ""));
-
-        const item = { id: productId, name: productName, price: productPrice };
-        cart.push(item);
-
-        updateCartIcon();
-        updateLocalStorage();
-    });
-
-    function updateCartIcon() {
-        const cartCount = $(".cart-count");
-        cartCount.text(cart.length);
-    }
-
-    function updateLocalStorage() {
-        localStorage.setItem('cart', JSON.stringify(cart));
-    }
-});
-
-
-    </script>
-    
+    </script>    
 </body>

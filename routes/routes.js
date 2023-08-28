@@ -67,6 +67,7 @@ router.post('/add', upload, async (req, res) => {
             name: req.body.name,
             Category: req.body.Category,
             price: req.body.price,
+            quantity: req.body.quantity,
             Image: req.file.filename,
         });
         await user.save();
@@ -139,8 +140,9 @@ router.post('/update/:id', upload, async (req, res) => {
 
         const updatedUser = await User.findByIdAndUpdate(id, {
             name: req.body.name,
-            email: req.body.email,
-            phone: req.body.phone,
+            Category: req.body.Category,
+            price: req.body.price,
+            quantity: req.body.quantity,
             Image: new_image,
         });
 
@@ -220,6 +222,20 @@ router.get('/about', (req, res) => {
     });
   });
 
-  
+
+  //cart
+  router.get("/cart", (req, res) => {
+    const productName = req.query.name;
+    const productPrice = req.query.price;
+
+    res.render("cart", { title: "Your Cart" , productName, productPrice });
+});
+
+
+//login page
+router.get("/login", (req, res) => {
+    res.render("login", {title: "Sign In"});
+});
+
 
 module.exports = router;

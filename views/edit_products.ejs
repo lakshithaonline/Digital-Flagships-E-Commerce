@@ -52,6 +52,10 @@
                 <input type="number" id="price" class="form-control form-control-lg" placeholder="Enter phone" value="<%= user.price  %>"  name="price" />
             </div>
             <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity:</label>
+                <input type="quantity" id="quantity" class="form-control form-control-lg" placeholder="Enter quantity" value="<%= user.quantity  %>"  name="quantity" />
+            </div>
+            <div class="mb-3">
                 <label for="image" class="form-label">Select Image:</label>
                 <input type="file" id="image" class="form-control form-control-lg" name="image"   enctype="multipart/form-data"/>
                 <img src="/<%= user.Image  %>" width="100" class="img-thumbnail mt-1">

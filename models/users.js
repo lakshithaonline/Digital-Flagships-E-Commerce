@@ -12,6 +12,10 @@ const userScema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    quantity: {
+        type: String,
+        required: true,
+    },
     Image: {
         type: String,
         required: true,
