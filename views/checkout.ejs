@@ -1,0 +1,329 @@
+<style>
+    /* General styles */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
+
+    /* Checkout container */
+    .checkout-container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        padding: 40px;
+        margin: 0 auto;
+        align-items: flex-start; /* Align items at the top of the row */
+    }
+
+    /* Customer details */
+    .customer-details {
+        flex: 1;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 10px;
+    }
+
+    .customer-details h2 {
+        margin-bottom: 20px;
+    }
+
+    /* Billing form */
+    .billing-form label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .billing-form input[type="text"],
+    .billing-form input[type="email"],
+    .billing-form textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .billing-form textarea {
+        resize: vertical;
+    }
+
+    /* Product details */
+    .product-details {
+        flex: 2;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f5f5f5;
+    }
+
+    .product-details h2 {
+        margin-bottom: 20px;
+        
+    }
+
+    /* Product list */
+    .product-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .product-item {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+    }
+
+    .product-item h3 {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+
+    .product-item p {
+        margin: 10px 0;
+    }
+
+     /* Order actions section */
+     .order-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+     /* Button styles */
+    .place-order-button,
+    .cancel-order-button {
+        padding: 10px 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+        margin-right: 10px; 
+    }
+
+    .place-order-button {
+        background-color: #ff9800;
+        margin-right: 10px;
+        color: #fff;
+    }
+
+    .cancel-order-button {
+        background-color: #ff9800;
+        color: #fff;
+    }
+
+    .place-order-button:hover,
+    .cancel-order-button:hover {
+        background-color: #f57c00;
+
+    }
+    
+
+    /* Payment Options */
+    .payment-options {
+        flex: 1;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f5f5f5;
+    }
+
+    .payment-methods-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 25px;
+    }
+
+    .payment-method {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .payment-method label {
+        font-weight: bold;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+    .payment-details {
+        display: none;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Show payment details when radio button is selected */
+    .payment-method input[type="radio"]:checked + label + .payment-details {
+        display: block;
+    }
+
+    /* Add this CSS to your existing styles */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 999; /* Ensure the overlay appears on top of other content */
+    align-items: center;
+    justify-content: center;
+}
+
+.confirmation-modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 80%;
+}
+
+/* Adjust the following styles as needed for the button */
+.place-order-button {
+    /* ...existing styles... */
+    z-index: 1; /* Ensure the button is above the modal overlay */
+}
+
+
+
+</style>
+<%- include('publicnavbar/navbar') %>
+
+<div class="checkout-container">
+    <div class="customer-details">
+        <h2>Customer Details</h2>
+        <form class="billing-form">
+            <label for="first-name">First Name:</label>
+            <input type="text" id="first-name" name="first-name" required>
+
+            <label for="last-name">Last Name:</label>
+            <input type="text" id="last-name" name="last-name" required>
+
+            <label for="street-address">Street Address:</label>
+            <input type="text" id="street-address" name="street-address" required>
+
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+
+            <label for="postcode">Postcode / ZIP:</label>
+            <input type="text" id="postcode" name="postcode" required>
+
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="order-notes">Order Notes (optional):</label>
+            <textarea id="order-notes" name="order-notes" rows="4"></textarea>
+        </form>
+    </div>
+
+<div class="product-details">
+        <h2>Your Order</h2>
+        <ul class="product-list">
+            <% cartData.forEach(item => { %>
+                <li class="product-item">
+                    <h3><%= item.name %></h3>
+                    <p>Price: <%= item.price.toFixed(2) %></p>
+                    <p>Quantity: <%= item.quantity %></p>
+                    <p>Total Price: <%= (item.price * item.quantity).toFixed(2) %></p>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+
+    <div class="payment-options">
+        <h2>Payment Methods</h2>
+        <ul class="payment-methods-list">
+            <li class="payment-method">
+                <input type="radio" id="pay-by-card" name="payment-method" value="pay-by-card">
+                <label for="pay-by-card">Pay by Card</label>
+                <div class="payment-details">
+
+                </div>
+            </li>
+            <li class="payment-method">
+                <input type="radio" id="credit-card-instalment" name="payment-method" value="credit-card-instalment">
+                <label for="credit-card-instalment">Credit Card Instalment Plans</label>
+                <div class="payment-details">
+                    <p>Minimum Subtotal LKR 10,000</p>
+                </div>
+            </li>
+            <li class="payment-method">
+                <input type="radio" id="koko" name="payment-method" value="koko">
+                <label for="koko">Koko: Buy Now Pay Later</label>
+                <div class="payment-details">
+                    <p>Pay in 3 installments with Koko.</p>
+                </div>
+            </li>
+            <li class="payment-method">
+                <input type="radio" id="bank-transfer" name="payment-method" value="bank-transfer">
+                <label for="bank-transfer">Direct Bank Transfer/Deposit</label>
+                <div class="payment-details">
+                
+                </div>
+            </li>
+            <li class="payment-method">
+                <input type="radio" id="american-express" name="payment-method" value="american-express">
+                <label for="american-express">American Express</label>
+                <div class="payment-details">
+                </div>
+            </li>
+        </ul>
+                <div class="order-actions">
+                    <button class="place-order-button" onclick="validateAndShowConfirmation()">Place Order</button>
+                    <button class="cancel-order-button">Cancel Order</button>
+            </div>
+    </div>
+</div>
+<div class="modal-overlay" id="modal-overlay">
+    <div class="confirmation-modal">
+        <p id="confirmation-message"></p>
+    </div>
+</div>
+
+
+<%- include('publicnavbar/publicfooter') %>
+
+<script>
+
+function validateAndShowConfirmation() {
+        var firstNameInput = document.getElementById("first-name");
+        var lastNameInput = document.getElementById("last-name");
+
+        if (firstNameInput.value === "" || lastNameInput.value === "") {
+            alert("Please fill in all required fields.");
+            return; 
+        }
+
+        var modalOverlay = document.getElementById("modal-overlay");
+        var confirmationMessage = document.getElementById("confirmation-message");
+
+        confirmationMessage.innerHTML = "Thank you for your order. We will let you know when your package is shipped.";
+        modalOverlay.style.display = "flex"; 
+
+        setTimeout(function() {
+            modalOverlay.style.display = "none";
+            window.location.href = '/'; 
+        }, 10000); 
+    }
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const cancelButton = document.querySelector('.cancel-order-button');
+
+        cancelButton.addEventListener('click', function() {
+           
+            window.location.href = '/'; 
+        });
+    });
+</script>

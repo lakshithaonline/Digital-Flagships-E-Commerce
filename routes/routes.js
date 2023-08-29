@@ -224,12 +224,23 @@ router.get('/about', (req, res) => {
 
 
   //cart
-  router.get("/cart", (req, res) => {
-    const productName = req.query.name;
-    const productPrice = req.query.price;
+  router.get('/cart', (req, res) => {
+    res.render('cart', {
+        title: 'Cart',
+        users: users
+    });
+  });
 
-    res.render("cart", { title: "Your Cart" , productName, productPrice });
-});
+    //cart
+    router.get('/checkout', (req, res) => {
+        const cartData = req.query.cartData ? JSON.parse(decodeURIComponent(req.query.cartData)) : [];
+        res.render('checkout', {
+            title: 'Checkout',
+            users: users,
+            cartData: cartData // Passing cartData to the view
+        });
+    });
+    
 
 
 //login page
