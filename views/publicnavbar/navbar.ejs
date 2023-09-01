@@ -45,19 +45,30 @@
             color: #f39c12;
         }
         
-        .cart-icon {
-            margin-left: 20px; 
+        #toggle-cart-button {
+        background-color: #f39c12; /* Set the background color to the theme color */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 8px 15px;
+        transition: background-color 0.3s;
+        display: flex;
+        align-items: center;
+        margin-top: auto;
+        text-decoration: none; /* Remove underline from the anchor element */
         }
 
-        .cart-icon a {
-            color: #fff;
-            text-decoration: none;
-            display: flex; 
-            align-items: center; 
+        #toggle-cart-button i {
+            margin-right: 5px;
+            margin-top: 3px;
+            margin-bottom: 3px;
+            margin-left: 5px;
+            vertical-align: middle;
         }
 
-        .cart-icon, a :hover {
-            color: #f39c12;
+        #toggle-cart-button:hover {
+            background-color: #e68a00; /* Change the hover color to a slightly darker shade */
         }
 
 
@@ -94,6 +105,10 @@
                         
                         </div>
                     </li>
+
+                    <button id="toggle-cart-button">
+                        <i class="fas fa-shopping-cart"></i>
+                    </button>
                     
                 </ul>
             </div>

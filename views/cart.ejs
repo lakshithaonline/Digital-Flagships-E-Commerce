@@ -1,31 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        /* inbuilt temporary cart styling */
-    </style>
+<style>
+       /* inbild temport cart */
+       .cart-container {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            height: 100%;
+            background-color: #f8f8f8;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            transition: right 0.3s;
+            width: 300px; 
+            max-height: 100vh; 
+            overflow-y: auto;
+        }
+
+        .cart-container.cart-show {
+            right: 0;
+        }
+
+        .toggle-cart-button {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .toggle-cart-button button {
+            background-color: #ff9800;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 8px 15px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .toggle-cart-button button i {
+            margin-right: 5px;
+        }
+        .toggle-cart-button button:hover {
+            background-color: #f57c00;
+        }
+
+        #cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        #cart-items li {
+            margin-bottom: 8px;
+        }
+
+        #cart-total {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #checkout-button,
+        #clear-cart-button {
+            display: block;
+            width: 100%;
+            background-color: #ff9800;
+            color: #fff;
+            text-align: center;
+            padding: 8px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        #checkout-button:hover,
+        #clear-cart-button:hover {
+            background-color: #f57c00;
+        }
+
+        .cart-hidden {
+            display: none;
+        }
+
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 5;
+            display: none;
+        }
+
+        .cart-container.cart-show + .cart-overlay {
+            display: block;
+        }
+
+        .cart-product-details {
+            display: flex;
+            justify-content: space-between;
+           
+            margin-bottom: 10px;
+        }
+
+        .cart-product-name {
+            font-weight: bold;
+        }
+
+        .cart-product-price-qty {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .cart-product-qty,
+        .cart-product-price {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .cart-product-actions button {
+            background-color: #ff9800;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 5px 10px;
+            margin-left: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .cart-product-actions button:hover {
+            background-color: #f57c00;
+        }
+</style>
+
 </head>
 <body>
-    <button id="show-cart-button">Show Cart</button> <!-- Add a button to show the cart -->
-    <div class="cart-container cart-hidden">
-        <h2>Your Cart</h2>
-        <ul id="cart-items"></ul>
-        <p id="cart-total">Total: $0</p>
-        <button id="checkout-button">Proceed to Checkout</button>
-        <button id="clear-cart-button">Clear Cart</button>
-    </div>  
-    <script src="./cartfunction.js"></script>
-    <script>
-        
-    $(document).ready(function() {
-        // Your existing code here
+<div class="cart-overlay"></div>
 
-        $("#show-cart-button").click(function() {
-            // Toggle the cart's visibility by adding/removing the "cart-show" class
-            $(".cart-container").toggleClass("cart-show");
+<div class="cart-container">
+    <h2>Your Cart</h2>
+    <ul id="cart-items"></ul>
+    <p id="cart-total">Total: Rs. 0</p>
+    <button id="checkout-button">Proceed to Checkout</button>
+    <button id="clear-cart-button">Clear Cart</button>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    //cart
+    $(document).ready(function () {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        const cartContainer = $(".cart-container");
+        const toggleCartButton = $("#toggle-cart-button");
+
+        toggleCartButton.click(function () {
+            cartContainer.toggleClass("cart-show");
+        });
+
+        $(".add-to-cart-btn").click(function () {
+            const productName = $(this).data("product-name");
+            const productPrice = parseFloat($(this).data("product-price"));
+
+            const existingProduct = cart.find(item => item.name === productName);
+
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ name: productName, price: productPrice, quantity: 1 }); // Add quantity 1
+            }
+            updateCartUI();
+            localStorage.setItem("cart", JSON.stringify(cart));
+        });
+
+        // Function to update the cart UI
+        function updateCartUI() {
+            const cartItemsList = $("#cart-items");
+            const cartTotal = $("#cart-total");
+
+            cartItemsList.empty();
+            let total = 0;
+
+            cart.forEach(item => {
+                const li = `
+                    <li>
+                        <div class="cart-product-details">
+                            <div class="cart-product-name">${item.name}</div>
+                            <div class="cart-product-price-qty">
+                                <div class="cart-product-qty">Qty: ${item.quantity}</div>
+                                <div class="cart-product-price">Rs. ${(item.price * item.quantity).toFixed(2)}</div>
+                            </div>
+                        </div>
+                        <div class="cart-product-actions">
+                            <button class="increase-qty-btn" data-product-name="${item.name}">+</button>
+                            <button class="decrease-qty-btn" data-product-name="${item.name}">-</button>
+                            <button class="remove-item-btn" data-product-name="${item.name}">Remove</button>
+                        </div>
+                    </li>`;
+                cartItemsList.append(li);
+                total += item.price * item.quantity;
+            });
+
+            cartTotal.text(`Total: Rs. ${total.toFixed(2)}`);
+        }
+        updateCartUI();
+
+        // Clear Cart button
+        $("#clear-cart-button").click(function () {
+            cart.length = 0;
+            localStorage.removeItem("cart");
+            updateCartUI();
+        });
+
+        // Increase product quantity in cart
+        $(document).on("click", ".increase-qty-btn", function () {
+            const productName = $(this).data("product-name");
+
+            // Find the product in the cart and increase its quantity
+            for (const item of cart) {
+                if (item.name === productName) {
+                    item.quantity += 1;
+                    updateCartUI();
+                    break;
+                }
+            }
+        });
+
+        // Decrease product quantity in cart
+        $(document).on("click", ".decrease-qty-btn", function () {
+            const productName = $(this).data("product-name");
+
+            // Find the product in the cart and decrease its quantity
+            for (const item of cart) {
+                if (item.name === productName) {
+                    if (item.quantity > 1) {
+                        item.quantity -= 1;
+                        updateCartUI();
+                    }
+                    break;
+                }
+            }
+        });
+
+        // Remove product from cart
+        $(document).on("click", ".remove-item-btn", function () {
+            const productName = $(this).data("product-name");
+
+            // Find the product in the cart and remove it
+            const index = cart.findIndex(item => item.name === productName);
+            if (index !== -1) {
+                cart.splice(index, 1);
+                updateCartUI();
+            }
+        });
+
+        $("#checkout-button").click(function () {
+            // Store cart data in localStorage
+            localStorage.setItem("cart", JSON.stringify(cart));
+
+            // Redirect to the checkout page with cart data as a query parameter
+            const cartDataQueryParam = encodeURIComponent(JSON.stringify(cart));
+            window.location.href = `/checkout?cartData=${cartDataQueryParam}`;
         });
     });
-
-    </script>
+</script>
 </body>
 </html>
