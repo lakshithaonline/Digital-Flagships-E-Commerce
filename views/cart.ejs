@@ -174,7 +174,7 @@
             if (existingProduct) {
                 existingProduct.quantity += 1;
             } else {
-                cart.push({ name: productName, price: productPrice, quantity: 1 }); // Add quantity 1
+                cart.push({ name: productName, price: productPrice, quantity: 1 }); 
             }
             updateCartUI();
             localStorage.setItem("cart", JSON.stringify(cart));
@@ -264,8 +264,6 @@
         $("#checkout-button").click(function () {
             // Store cart data in localStorage
             localStorage.setItem("cart", JSON.stringify(cart));
-
-            // Redirect to the checkout page with cart data as a query parameter
             const cartDataQueryParam = encodeURIComponent(JSON.stringify(cart));
             window.location.href = `/checkout?cartData=${cartDataQueryParam}`;
         });
