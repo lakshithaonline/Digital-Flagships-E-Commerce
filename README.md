@@ -2,13 +2,14 @@
 
 # Digital Flagships | E Commerce Webapp
 
-Welcome to the Digital Flagships E Commerce Webapp! This project is designed to provide a responsive online store platform with admin capabilities for managing products.
+Welcome to the Digital Flagships E-Commerce Web app! This project is designed to provide a responsive online store platform with admin capabilities for managing products.
 
 ## Features
 
 - Responsive Store: Browse and shop for products on any device.
 - Admin CRUD: Manage products using Create, Read, Update, and Delete operations.
-- Pending
+- Active Cart: Increase, Degrease product Counts, Remove Products.
+- Checkout Process: Seamless Checkout process with Payment and customer personal detail form.
   
 ## Technical Stack
 
@@ -33,7 +34,7 @@ Welcome to the Digital Flagships E Commerce Webapp! This project is designed to 
 ## Usage
 
 - Visit the homepage to browse and shop for products.
-- Access the admin panel by going to `/admin`. Here, you can manage products using CRUD operations.
+- Access the admin panel by login in to `/admin`. Here, you can manage products using CRUD operations.
 
 ## License
 
