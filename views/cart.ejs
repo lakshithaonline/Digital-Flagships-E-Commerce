@@ -263,7 +263,7 @@
 
         $("#checkout-button").click(function () {
             // Store cart data in localStorage
-            localStorage.setItem("cart", JSON.stringify(cart));
+            
             const cartDataQueryParam = encodeURIComponent(JSON.stringify(cart));
             window.location.href = `/checkout?cartData=${cartDataQueryParam}`;
         });
