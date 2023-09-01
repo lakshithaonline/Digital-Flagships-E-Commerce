@@ -152,7 +152,7 @@ router.post('/update/:id', upload, async (req, res) => {
 
         req.session.message = {
             type: 'success',
-            message: 'User Updated successfully!',
+            message: 'Product Updated successfully!',
         };
         res.redirect("/home");
     } catch (err) {
@@ -184,7 +184,7 @@ router.get('/delete/:id', async (req, res) => {
 
             req.session.message = {
                 type: 'success',
-                message: 'User deleted successfully!'
+                message: 'Product deleted successfully!'
             };
             res.redirect("/home");
         }
