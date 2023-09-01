@@ -7,7 +7,7 @@ const users = require('../models/users');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 
-
+//contact form: email sending function: (Not working/)
 var transport = nodemailer.createTransport({
     host: 'sandbox.smtp.mailtrap.io',
     port: 2525,

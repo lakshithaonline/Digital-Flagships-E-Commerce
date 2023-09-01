@@ -264,7 +264,7 @@
         $("#checkout-button").click(function () {
             localStorage.setItem("cart", JSON.stringify(cart));  // Store cart data in localStorage
             const cartDataQueryParam = encodeURIComponent(JSON.stringify(cart));
-            window.location.href = `/checkout?cartData=${cartDataQueryParam}`;
+            window.location.href = `/checkout?cartData=${cartDataQueryParam}`; //redirect 
         });
     });
 </script>
